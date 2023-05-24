@@ -52,5 +52,6 @@ char *_changer(unsigned int number, unsigned int numm);
 void _error(list_t *list, char *string, char **argv, int numm);
 void exitt(char *line, char **args);
 char *_strtok(char *str, const char *delim, char **saveptr);
+size_t _strcspn(const char *s, const char *reject);
 
 #endif
