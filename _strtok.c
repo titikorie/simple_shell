@@ -18,7 +18,7 @@ char *_strtok(char *str, const char *delim, char **saveptr)
 	token = *saveptr;
 	if (token == NULL)
 	{
-		return NULL;
+		return (NULL);
 	}
 	while (*token && strchr(delim, *token))
 	{
@@ -27,7 +27,7 @@ char *_strtok(char *str, const char *delim, char **saveptr)
 	if (*token == '\0')
 	{
 		*saveptr = NULL;
-		return NULL;
+		return (NULL);
 	}
 	start = token;
 	while (*token && !strchr(delim, *token))
@@ -43,5 +43,5 @@ char *_strtok(char *str, const char *delim, char **saveptr)
 		*token = '\0';
 		*saveptr = token + 1;
 	}
-	return start;
+	return (start);
 }

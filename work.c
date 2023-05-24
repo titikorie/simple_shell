@@ -1,14 +1,15 @@
 #include "main.h"
 /**
  * main - the main function fot other prototypes
- * doesn't take any parameter
+ * @numm: counter
+ * @argv: arg 0
  * Return: 0
  */
 int main(int numm, char **argv)
 {
 	char **args = NULL, *line = NULL;
-	int num = 0,len, empty_line, j;
-	size_t i = 0;
+	int num = 0, len, empty_line, j;
+	ssize_t i = 0;
 	ssize_t bytes = 0;
 
 	numm = 0;
@@ -17,10 +18,10 @@ int main(int numm, char **argv)
 	{
 		numm++;
 		_isatty();
-		bytes = getline(&line, &i, stdin);
+		bytes = _getline(&line, &i, stdin);
 		_EOF(bytes, line);
-	       	empty_line = 1;
-		for ( j = 0; j < bytes; j++)
+		empty_line = 1;
+		for (j = 0; j < bytes; j++)
 		{
 			if (line[j] != ' ' && line[j] != '\n')
 			{
@@ -34,10 +35,6 @@ int main(int numm, char **argv)
 		if (len > 0 && line[len - 1] == '\n')
 		{
 			line[len - 1] = '\0';
-		}                     
-		if (strchr(line, ';') !=NULL)
-		{
-			handle_semicolon(line, args);
 		}
 		args = malloc(sizeof(char *) * (len + 1));
 		parse_input(line, args, &num);
@@ -51,7 +48,7 @@ int main(int numm, char **argv)
 		num = 0;
 	}
 	freee(line);
-	return (0);	
+	return (0);
 }
 
 /**
@@ -64,14 +61,13 @@ int main(int numm, char **argv)
 void parse_input(char *line, char **args, int *num)
 {
 	int size = 10;
-	char *saveptr, *arg = _strtok(line, " ", &saveptr); 
+	char *saveptr, *arg = _strtok(line, " ", &saveptr);
 
 	while (arg != NULL)
 	{
 		args[*num] = arg;
 		(*num)++;
 		arg = _strtok(NULL, " ", &saveptr);
-	
 
 		if (*num >= size)
 		{
@@ -95,16 +91,17 @@ void parse_input(char *line, char **args, int *num)
 /**
  * execute_command - fork and excute
  * @args: arrays of command
+ * @argv: arg 0
  * Return: none
  */
 int execute_command(char **args, char **argv)
 {
 	int status;
-       	unsigned int numm = 0;
+	unsigned int numm = 0;
 	pid_t pid;
 	char *cmd, *dir = NULL, *path;
 	list_t list;
-	
+
 	pid = fork();
 	if (pid == -1)
 	{
@@ -138,7 +135,7 @@ int execute_command(char **args, char **argv)
 	{
 		waitpid(pid, &status, 0);
 	}
-	return WEXITSTATUS(status);	
+	return (WEXITSTATUS(status));
 }
 
 /**

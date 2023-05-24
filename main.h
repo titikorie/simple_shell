@@ -11,14 +11,21 @@
 #include <errno.h>
 #include <unistd.h>
 #include <stdarg.h>
-
+/**
+ * struct liststr - struct
+ * @args: pointer
+ * @numm: counter
+ * @argv: name of the program
+ * @env: environ
+ * @number: counter
+ */
 typedef struct liststr
 {
-        char **args;
+	char **args;
 	unsigned int numm;
 	char *argv;
-        char **env;
-        int number;
+	char **env;
+	int number;
 } list_t;
 
 extern char **environ;
@@ -43,14 +50,8 @@ int _putchar(char c);
 void _puts(char *str);
 char *_changer(unsigned int number, unsigned int numm);
 void _error(list_t *list, char *string, char **argv, unsigned int numm);
-int handlers(char **commands, char **args);
-int builtins(char *line);
-void handle_semicolon(char *line, char **argv);
 void exitt(char *line, char **args);
-int cd_handler(char **args);
-int checkBuiltins(char **args);
 char *_strtok(char *str, const char *delim, char **saveptr);
 ssize_t _getline(char **lineptr, ssize_t *n, FILE *stream);
-int print_d(int input, int fd);
-int _eputchar(char c);
+
 #endif

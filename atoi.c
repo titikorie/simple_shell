@@ -59,7 +59,6 @@ void _EOF(int bytes, char *line)
 		}
 		exit(0);
 	}
-	
 }
 
 /**

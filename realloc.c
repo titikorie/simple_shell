@@ -70,12 +70,12 @@ void *_realloc(void *old, ssize_t size)
  * @n: size of the read line
  * @stream: file
  * Return:size of the read line
- */ 
+ */
 ssize_t _getline(char **lineptr, ssize_t *n, FILE *stream)
 {
 	static char buffer[BUFSIZ];
-	static int pos = 0;
-	static ssize_t bytes_read = 0;
+	static int pos;
+	static ssize_t bytes_read;
 	ssize_t total_bytes_read = 0;
 	char *line = *lineptr;
 
@@ -85,7 +85,7 @@ ssize_t _getline(char **lineptr, ssize_t *n, FILE *stream)
 		line = malloc(*n);
 		if (line == NULL)
 		{
-			return -1;
+			return (-1);
 		}
 		*lineptr = line;
 	}
@@ -116,10 +116,10 @@ ssize_t _getline(char **lineptr, ssize_t *n, FILE *stream)
 			line = _realloc(line, *n);
 			if (line == NULL)
 			{
-				return -1;
+				return (-1);
 			}
 			*lineptr = line;
 		}
 	}
-	return (total_bytes_read == 0 && bytes_read == 0) ? -1 : total_bytes_read;
+	return ((total_bytes_read == 0 && bytes_read == 0) ? -1 : total_bytes_read);
 }
