@@ -1,4 +1,7 @@
 #include "main.h"
+#define READ_BUF_SIZE 1024
+#define WRITE_BUF_SIZE 1024
+#define BUF_FLUSH -1
 /**
  * _changer - take unsigned int to return string
  * @number: unsignerd int
@@ -18,7 +21,7 @@ char *_changer(unsigned int number, unsigned int numm)
 		i++;
 		num /= 10;
 	}
-	str = (char *) malloc(sizeof(char) * (i + 1 + numm + 3));
+	str = (char *) malloc(sizeof(char) * (i + 1 + numm));
 	if (str == NULL)
 	{
 		perror("Fatal Error1");
@@ -40,11 +43,11 @@ char *_changer(unsigned int number, unsigned int numm)
  * _error - print the error message
  * @string: points to a string
  * @list: struct
- * @argv: pointer
- * @numm: integer
+ * @argv: pointer to name of program
+ * @numm: counter
  * Return: nothing
  */
-void _error(list_t *list, char *string, char **argv, unsigned int numm)
+void _error(list_t *list, char *string, char **argv, int numm)
 {
 	char *number;
 
