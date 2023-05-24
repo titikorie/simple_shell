@@ -33,11 +33,7 @@ int main(int numm, char **argv)
 		{
 			continue;
 		}
-		len = _strlen(line);
-		if (len > 0 && line[len - 1] == '\n')
-		{
-			line[len - 1] = '\0';
-		}
+		len = _strncmp(line);
 		args = malloc(sizeof(char *) * (len + 1));
 		parse_input(line, args, &num);
 		if (_strncmp(line, "exit", 5) == 0)
@@ -52,7 +48,6 @@ int main(int numm, char **argv)
 	freee(line);
 	return (0);
 }
-
 /**
  * parse_input - to devide the input using delim by strtok
  * @line: input command
@@ -93,6 +88,7 @@ void parse_input(char *line, char **args, int *num)
 /**
  * execute_command - fork and excute
  * @args: arrays of command
+ * @numm: counter
  * @argv: arg 0
  * Return: none
  */
