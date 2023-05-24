@@ -7,7 +7,7 @@
 int main(int numm, char **argv)
 {
 	char **args = NULL, *line = NULL;
-	int num = 0,len;
+	int num = 0,len, empty_line, j;
 	size_t i = 0;
 	ssize_t bytes = 0;
 
@@ -18,7 +18,19 @@ int main(int numm, char **argv)
 		numm++;
 		_isatty();
 		bytes = getline(&line, &i, stdin);
-		_EOF(bytes, line); len = _strlen(line);
+		_EOF(bytes, line);
+	       	empty_line = 1;
+		for ( j = 0; j < bytes; j++)
+		{
+			if (line[j] != ' ' && line[j] != '\n')
+			{
+				empty_line = 0;
+				break;
+			}
+		}
+		if (empty_line)
+			continue;
+		len = _strlen(line);
 		if (len > 0 && line[len - 1] == '\n')
 		{
 			line[len - 1] = '\0';

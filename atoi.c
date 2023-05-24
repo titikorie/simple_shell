@@ -50,7 +50,6 @@ void sig_handler(int signal)
 
 void _EOF(int bytes, char *line)
 {
-	(void)bytes;
 	if (bytes == -1)
 	{
 		if (isatty(STDIN_FILENO))
@@ -60,6 +59,7 @@ void _EOF(int bytes, char *line)
 		}
 		exit(0);
 	}
+	
 }
 
 /**
