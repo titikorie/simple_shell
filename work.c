@@ -30,20 +30,16 @@ int main(int numm, char **argv)
 			}
 		}
 		if (empty_line)
-		{
 			continue;
-		}
+
 		len = _strlen(line);
 		if (len > 0 && line[len - 1] == '\n')
-		{
 			line[len - 1] = '\0';
-		}
+
 		args = malloc(sizeof(char *) * (len + 1));
 		parse_input(line, args, &num);
 		if (_strncmp(line, "exit", 5) == 0)
-		{
 			exitt(line, args);
-		}
 		execute_command(args, argv, numm);
 		free(args);
 		args = NULL;
