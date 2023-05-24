@@ -1,15 +1,14 @@
 #include "main.h"
 /**
- * _strtok - to separate the given inputwith space
- * @str:the string
+ * _strtok - to split it with the input
+ * @str: the string to split
  * @delim: space
- * @saveptr:check the code
- * Return: pointer of arrays
+ * @saveptr: pointer
+ * Return: pointer to char splitted
  */
-
 char *_strtok(char *str, const char *delim, char **saveptr)
 {
-	char *token, *start;
+	char *start, *token;
 
 	if (str != NULL)
 	{
@@ -26,7 +25,7 @@ char *_strtok(char *str, const char *delim, char **saveptr)
 	}
 	if (*token == '\0')
 	{
-		*saveptr = NULL;
+		*saveptr = (NULL);
 		return (NULL);
 	}
 	start = token;
@@ -36,7 +35,7 @@ char *_strtok(char *str, const char *delim, char **saveptr)
 	}
 	if (*token == '\0')
 	{
-		*saveptr = NULL;
+		*saveptr = (NULL);
 	}
 	else
 	{

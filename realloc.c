@@ -2,7 +2,7 @@
 
 /**
  *_getenv - searches an env't list to find the env't variable
- *@name: - the pointer
+ *@name: - the poonter
  *Return: a pointer on success, NULL on failure
  */
 
@@ -32,6 +32,9 @@ char *_getenv(const char *name)
 	free(value);
 	return (NULL);
 }
+
+
+
 
 /**
  * _realloc - changes the size of the memory block
@@ -63,13 +66,12 @@ void *_realloc(void *old, ssize_t size)
 	free(new);
 	return (NULL);
 }
-
 /**
- * _getline - to read inputs
- * @lineptr: points the line input
- * @n: size of the read line
+ * _getline - to read user input commands
+ * @lineptr: points the input
+ * @n: size of read
  * @stream: file
- * Return:size of the read line
+ * Return: amount of read line
  */
 ssize_t _getline(char **lineptr, ssize_t *n, FILE *stream)
 {
@@ -123,3 +125,4 @@ ssize_t _getline(char **lineptr, ssize_t *n, FILE *stream)
 	}
 	return ((total_bytes_read == 0 && bytes_read == 0) ? -1 : total_bytes_read);
 }
+

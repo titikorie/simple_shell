@@ -1,28 +1,27 @@
 #ifndef MAIN_H
+
 #define MAIN_H
 
 #include <stddef.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <errno.h>
 #include <unistd.h>
 #include <stdarg.h>
 /**
- * struct liststr - struct
- * @args: pointer
- * @numm: counter
- * @argv: name of the program
+ * struct liststr - to print typedef
+ * @args: check ths code
+ * @argv: arrays
  * @env: environ
- * @number: counter
+ * @number: integer
  */
+
 typedef struct liststr
 {
 	char **args;
-	unsigned int numm;
 	char *argv;
 	char **env;
 	int number;
@@ -47,10 +46,16 @@ size_t _strlen(const char *s);
 int _strcmp(char const string1[], char const string2[]);
 int _strncmp(const char *s1, const char *s2, size_t n);
 int _putchar(char c);
+int unsetenv_command(char **args, char *line);
+int setenv_command(char **args, char *line);
 void _puts(char *str);
 char *_changer(unsigned int number, unsigned int numm);
-void _error(list_t *list, char *string, char **argv, unsigned int numm);
-void exitt(char *line, char **args);
+void _error(list_t *list, char *string, char **argv,  unsigned int numm);
+int builtins(char *line);
+void handle_semicolon(char *line, char **argv);
+void exitt(char *line);
+int cd_command(char **args);
+int checkBuiltins(char **args, char *line);
 char *_strtok(char *str, const char *delim, char **saveptr);
 ssize_t _getline(char **lineptr, ssize_t *n, FILE *stream);
 

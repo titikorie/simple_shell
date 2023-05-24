@@ -102,3 +102,4 @@ void _puts(char *str)
 		exit(1);
 	}
 }
+
