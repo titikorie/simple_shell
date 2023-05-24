@@ -20,7 +20,7 @@ char *_strtok(char *str, const char *delim, char **saveptr)
 	{
 		return (NULL);
 	}
-	while (*token && strchr(delim, *token))
+	while (*token && _strchr(delim, *token))
 	{
 		token++;
 	}
@@ -30,7 +30,7 @@ char *_strtok(char *str, const char *delim, char **saveptr)
 		return (NULL);
 	}
 	start = token;
-	while (*token && !strchr(delim, *token))
+	while (*token && !_strchr(delim, *token))
 	{
 		token++;
 	}
