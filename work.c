@@ -18,7 +18,7 @@ int main(int numm, char **argv)
 	{
 		numm++;
 		_isatty();
-		bytes = getline(&line, &i, stdin);
+		bytes = _getline(&line, &i, stdin);
 		_EOF(bytes, line);
 		empty_line = 1;
 		for (j = 0; j < bytes; j++)

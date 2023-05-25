@@ -42,7 +42,6 @@ int _strcmp(const char string1[], const char string2[])
 	return (0);
 }
 
-
 /**
  * _strncmp - compares the 1st n bytes
  * @s1: array of chars for the 1st string

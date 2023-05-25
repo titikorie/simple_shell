@@ -49,6 +49,7 @@ int execute_command(char **args, char *line, char **argv, int numm);
 char *search_path(char *cmd);
 char *_strcat(char *dest, const char *src);
 char *_strdup(const char *s);
+char *_strcpy(char *dest, char *src);
 void *_realloc(void *old, ssize_t size);
 char *_getenv(const char *name);
 void *_memcpy(void *dest, const void *src, size_t n);
@@ -63,5 +64,8 @@ void _error(list_t *list, char *string, char **argv, int numm);
 void exitt(char *line, char **args);
 char *_strtok(char *str, const char *delim, char **saveptr);
 size_t _strcspn(const char *s, const char *reject);
-ssize_t _getline(char **lineptr, ssize_t *n, FILE *stream);
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
+void *_reallocd(void *ptr, unsigned int old_size, unsigned int new_size);
+void bring_line(char **lineptr, size_t *n, char *buffer, size_t j);
+
 #endif
