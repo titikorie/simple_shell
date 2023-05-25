@@ -61,7 +61,7 @@ int _putchar(char c);
 void _puts(char *str);
 char *_changer(unsigned int number, unsigned int numm);
 void _error(list_t *list, char *string, char **argv, int numm);
-void exitt(char *line, char **args);
+void exitt(char *line, char **args, char **argv, int numm);
 char *_strtok(char *str, const char *delim, char **saveptr);
 size_t _strcspn(const char *s, const char *reject);
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);

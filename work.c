@@ -38,8 +38,8 @@ int main(int numm, char **argv)
 		if (args == NULL)
 			exit(1);
 		parse_input(line, args, &num);
-		if (_strncmp(line, "exit", 5) == 0)
-			exitt(line, args);
+		if (_strncmp(line, "exit", 4) == 0)
+			exitt(line, args, argv, numm);
 		execute_command(args, line, argv, numm);
 		free(args);
 		args = NULL;
@@ -110,7 +110,7 @@ int execute_command(char **args, char *line, char **argv, int numm)
 	else if (pid == 0)
 	{
 		cmd = args[0];
-		path = search_path(cmd);
+	path = search_path(cmd);
 		if (path == NULL)
 		{
 			list.args = args;
@@ -121,14 +121,23 @@ int execute_command(char **args, char *line, char **argv, int numm)
 			exit(127);
 		}
 		args[0] = path;
-		if (execve(args[0], args, environ) == -1)
+		if (_strncmp(line, "exit", 4) == 0 && args[1] != NULL && -atoi(args[1]) < 0)
 		{
-			list.args = args;
-			list.number = numm++;
-			free(line);
 			free(args);
-			_error(&list, "\n", argv, numm++);
-			exit(127);
+			free(line);
+			return (2);
+		}
+		else
+		{
+			if (execve(args[0], args, environ) == -1)
+			{
+				list.args = args;
+				list.number = numm++;
+				free(line);
+				free(args);
+				_error(&list, "\n", argv, numm++);
+				exit(127);
+			}
 		}
 	}
 	else
