@@ -28,6 +28,12 @@ typedef struct liststr
 	int number;
 } list_t;
 
+typedef struct _getline_Vars
+{
+	char buffer[BUFSIZ];
+	int pos;
+	ssize_t bytes_read;
+} getline_Vars_t;
 extern char **environ;
 void _isatty(void);
 void _EOF(int bytes, char *line);
@@ -52,5 +58,5 @@ void _error(list_t *list, char *string, char **argv, int numm);
 void exitt(char *line, char **args);
 char *_strtok(char *str, const char *delim, char **saveptr);
 size_t _strcspn(const char *s, const char *reject);
-
+ssize_t _getline(char **lineptr, ssize_t *n, FILE *stream);
 #endif
