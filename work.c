@@ -9,7 +9,7 @@ int main(int numm, char **argv)
 {
 	char **args = NULL, *line = NULL;
 	int num = 0, empty_line = 0, j, len;
-	ssize_t i = 0;
+	size_t i = 0;
 	ssize_t bytes = 0;
 
 	numm = 0;
