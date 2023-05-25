@@ -27,7 +27,12 @@ typedef struct liststr
 	char **env;
 	int number;
 } list_t;
-
+/**
+ * struct _getline_Vars - variables used by _getline function
+ * @buffer: input buffer
+ * @pos: position in the buffer
+ * @bytes_read: number of bytes read
+ */
 typedef struct _getline_Vars
 {
 	char buffer[BUFSIZ];
