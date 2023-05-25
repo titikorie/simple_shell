@@ -34,7 +34,7 @@ void _EOF(int bytes, char *line);
 void sig_handler(int signal);
 int _atoi(const char *nptr);
 void parse_input(char *line, char **args, int *arg_index);
-int execute_command(char **args, char **argv, int numm);
+int execute_command(char **args, char *line, char **argv, int numm);
 char *search_path(char *cmd);
 char *_strcat(char *dest, const char *src);
 char *_strdup(const char *s);

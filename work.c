@@ -8,7 +8,7 @@
 int main(int numm, char **argv)
 {
 	char **args = NULL, *line = NULL;
-	int num = 0, len, empty_line, j;
+	int num = 0, empty_line = 0, j, len;
 	size_t i = 0;
 	ssize_t bytes = 0;
 
@@ -40,7 +40,7 @@ int main(int numm, char **argv)
 		parse_input(line, args, &num);
 		if (_strncmp(line, "exit", 5) == 0)
 			exitt(line, args);
-		execute_command(args, argv, numm);
+		execute_command(args, line, argv, numm);
 		free(args);
 		args = NULL;
 		num = 0;
@@ -90,9 +90,10 @@ void parse_input(char *line, char **args, int *num)
  * @args: arrays of command
  * @numm: counter
  * @argv: arg 0
+ * @line: pointer
  * Return: none
  */
-int execute_command(char **args, char **argv, int numm)
+int execute_command(char **args, char *line, char **argv, int numm)
 {
 	int status;
 	pid_t pid;
@@ -109,12 +110,13 @@ int execute_command(char **args, char **argv, int numm)
 	{
 		cmd = args[0];
 		path = search_path(cmd);
-
 		if (path == NULL)
 		{
 			list.args = args;
 			list.number = numm++;
 			_error(&list, ": not found\n", argv, numm++);
+			free(line);
+			free(args);
 			exit(127);
 		}
 		args[0] = path;
@@ -123,6 +125,8 @@ int execute_command(char **args, char **argv, int numm)
 			list.args = args;
 			list.number = numm++;
 			_error(&list, "\n", argv, numm++);
+			free(args);
+			free(line);
 			exit(127);
 		}
 	}
