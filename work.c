@@ -72,7 +72,7 @@ void parse_input(char *line, char **args, int *num)
 			args = _realloc(args, sizeof(char *) * size);
 			if (args == NULL)
 			{
-				perror("realloc");
+				perror("errno");
 				exit(1);
 			}
 		}
@@ -152,7 +152,7 @@ char *search_path(char *cmd)
 	path_copy = _strdup(path);
 	if (path_copy == NULL)
 	{
-		perror("strdup");
+		perror("fatal error");
 		exit(127);
 	}
 	dir = _strtok(path_copy, ":", &saveptr);
