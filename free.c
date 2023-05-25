@@ -4,18 +4,11 @@
  * @line: one of the pointers
  * Return: nothin
  */
-void freee(void *line)
+void freee(char *line, char **args, char *path_copy, char *full_path)
 {
-	char *nptr = NULL, *format = NULL, *str = NULL;
-	char *value = NULL, *path_copy = NULL, *full_path = NULL, **args = NULL;
 
 	free(line);
-	free(value);
-	free(value);
 	free(path_copy);
 	free(full_path);
 	free(args);
-	free(nptr);
-	free(format);
-	free(str);
 }

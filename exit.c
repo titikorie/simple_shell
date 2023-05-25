@@ -8,6 +8,12 @@ void exitt(char *line, char **args)
 {
 	int status = 0;
 
+	if (args == NULL || line == NULL)
+	{
+		free(line);
+		free(args);
+		exit(0);
+	}
 	status = _atoi(&line[5]);
 	free(args);
 	free(line);

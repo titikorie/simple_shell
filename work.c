@@ -31,12 +31,12 @@ int main(int numm, char **argv)
 		}
 		if (empty_line)
 			continue;
-
 		len = _strlen(line);
 		if (len > 0 && line[len - 1] == '\n')
 			line[len - 1] = '\0';
-
 		args = malloc(sizeof(char *) * (len + 1));
+		if (args == NULL)
+			exit(1);
 		parse_input(line, args, &num);
 		if (_strncmp(line, "exit", 5) == 0)
 			exitt(line, args);
@@ -45,7 +45,7 @@ int main(int numm, char **argv)
 		args = NULL;
 		num = 0;
 	}
-	freee(line);
+	free(line);
 	return (0);
 }
 /**
@@ -96,7 +96,7 @@ int execute_command(char **args, char **argv, int numm)
 {
 	int status;
 	pid_t pid;
-	char *cmd, *dir = NULL, *path;
+	char *cmd, *path;
 	list_t list;
 
 	pid = fork();
@@ -115,8 +115,6 @@ int execute_command(char **args, char **argv, int numm)
 			list.args = args;
 			list.number = numm++;
 			_error(&list, ": not found\n", argv, numm++);
-			_puts(dir);
-			_puts("\n");
 			exit(127);
 		}
 		args[0] = path;
@@ -124,7 +122,7 @@ int execute_command(char **args, char **argv, int numm)
 		{
 			list.args = args;
 			list.number = numm++;
-			_error(&list, " \n", argv, numm++);
+			_error(&list, "\n", argv, numm++);
 			exit(127);
 		}
 	}
@@ -142,17 +140,24 @@ int execute_command(char **args, char **argv, int numm)
  */
 char *search_path(char *cmd)
 {
-	char *path, *path_copy, *dir, *saveptr, *full_path = NULL;
+	char *path, *path_copy = NULL, *dir, *saveptr, *full_path = NULL;
 
 	if (_strchr(cmd, '/') != NULL)
-	{
 		return (cmd);
-	}
 	path = _getenv("PATH");
 	path_copy = _strdup(path);
+	if (path_copy == NULL)
+	{
+		perror("strdup");
+		exit(127);
+	}
 	dir = _strtok(path_copy, ":", &saveptr);
 	full_path = malloc(_strlen(dir) + _strlen(cmd) + 2);
-
+	if  (full_path == NULL)
+	{
+		perror("fatal error");
+		exit(127);
+	}
 	while (dir != NULL)
 	{
 		if (full_path != NULL)
@@ -165,11 +170,13 @@ char *search_path(char *cmd)
 
 		if (access(full_path, X_OK) == 0)
 		{
+			free(path_copy);
 			return (full_path);
 		}
 		dir = _strtok(NULL, ":", &saveptr);
 	}
 	free(full_path);
 	free(path_copy);
+	free(path);
 	return (NULL);
 }

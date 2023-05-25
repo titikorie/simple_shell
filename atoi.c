@@ -40,6 +40,7 @@ void sig_handler(int signal)
 	if (signal == SIGINT)
 	{
 		_puts("\n$ ");
+		fflush(stdout);
 	}
 }
 /**
@@ -52,6 +53,7 @@ void _EOF(int bytes, char *line)
 {
 	if (bytes == -1)
 	{
+		(void)line;
 		if (isatty(STDIN_FILENO))
 		{
 			_puts("\n");
@@ -68,5 +70,8 @@ void _EOF(int bytes, char *line)
 void _isatty(void)
 {
 	if (isatty(STDIN_FILENO))
+	{
 		_puts("$ ");
+		fflush(stdout);
+	}
 }

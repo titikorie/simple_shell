@@ -30,7 +30,6 @@ typedef struct liststr
 
 extern char **environ;
 void _isatty(void);
-void freee(void *nptr);
 void _EOF(int bytes, char *line);
 void sig_handler(int signal);
 int _atoi(const char *nptr);
