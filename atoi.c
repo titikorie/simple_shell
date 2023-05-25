@@ -59,6 +59,10 @@ void _EOF(int bytes, char *line)
 			_puts("\n");
 			free(line);
 		}
+		else
+		{
+			free(line);
+		}
 		exit(0);
 	}
 }

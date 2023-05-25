@@ -19,12 +19,7 @@ int main(int numm, char **argv)
 		numm++;
 		_isatty();
 		bytes = getline(&line, &i, stdin);
-		if (bytes == -1)
-		{
-			_EOF(bytes, line);
-			free(line);
-			exit(0);
-		}
+		_EOF(bytes, line);
 		empty_line = 1;
 		for (j = 0; j < bytes; j++)
 		{
@@ -63,7 +58,7 @@ int main(int numm, char **argv)
 void parse_input(char *line, char **args, int *num)
 {
 	int size = 10;
-	char *saveptr, *arg = _strtok(line, " ", &saveptr);
+	char *saveptr, *new_args = NULL, *arg = _strtok(line, " ", &saveptr);
 
 	while (arg != NULL)
 	{
@@ -74,8 +69,8 @@ void parse_input(char *line, char **args, int *num)
 		if (*num >= size)
 		{
 			size *= 2;
-			args = _realloc(args, sizeof(char *) * size);
-			if (args == NULL)
+			new_args = _realloc(args, sizeof(char *) * size);
+			if (new_args == NULL)
 			{
 				perror("errno");
 				exit(1);
@@ -88,6 +83,7 @@ void parse_input(char *line, char **args, int *num)
 		(*num)++;
 	}
 	args[*num] = NULL;
+	free(new_args);
 }
 
 /**
@@ -120,8 +116,8 @@ int execute_command(char **args, char *line, char **argv, int numm)
 			list.args = args;
 			list.number = numm++;
 			_error(&list, ": not found\n", argv, numm++);
-			free(line);
 			free(args);
+			free(line);
 			exit(127);
 		}
 		args[0] = path;
@@ -129,9 +125,9 @@ int execute_command(char **args, char *line, char **argv, int numm)
 		{
 			list.args = args;
 			list.number = numm++;
-			_error(&list, "\n", argv, numm++);
 			free(line);
 			free(args);
+			_error(&list, "\n", argv, numm++);
 			exit(127);
 		}
 	}
@@ -179,6 +175,7 @@ char *search_path(char *cmd)
 
 		if (access(full_path, X_OK) == 0)
 		{
+			free(path);
 			free(path_copy);
 			return (full_path);
 		}
