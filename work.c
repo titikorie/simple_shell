@@ -19,7 +19,12 @@ int main(int numm, char **argv)
 		numm++;
 		_isatty();
 		bytes = getline(&line, &i, stdin);
-		_EOF(bytes, line);
+		if (bytes == -1)
+		{
+			_EOF(bytes, line);
+			free(line);
+			exit(0);
+		}
 		empty_line = 1;
 		for (j = 0; j < bytes; j++)
 		{
@@ -125,8 +130,8 @@ int execute_command(char **args, char *line, char **argv, int numm)
 			list.args = args;
 			list.number = numm++;
 			_error(&list, "\n", argv, numm++);
-			free(args);
 			free(line);
+			free(args);
 			exit(127);
 		}
 	}
