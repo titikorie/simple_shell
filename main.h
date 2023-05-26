@@ -45,8 +45,8 @@ void _EOF(int bytes, char *line);
 void sig_handler(int signal);
 int _atoi(const char *nptr);
 void parse_input(char *line, char **args, int *arg_index);
-int execute_command(char **args, char *line, char **argv, int numm);
-char *search_path(char *cmd);
+int execute_command(char *line, char **args, char **argv, int numm);
+char *search_path(char *line, char **args, char **argv, int numm);
 char *_strcat(char *dest, const char *src);
 char *_strdup(const char *s);
 char *_strcpy(char *dest, char *src);
@@ -67,5 +67,6 @@ size_t _strcspn(const char *s, const char *reject);
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 void *_reallocd(void *ptr, unsigned int old_size, unsigned int new_size);
 void bring_line(char **lineptr, size_t *n, char *buffer, size_t j);
+void change_directory(char **args);
 
 #endif

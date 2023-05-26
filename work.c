@@ -12,8 +12,7 @@ int main(int numm, char **argv)
 	size_t i = 0;
 	ssize_t bytes = 0;
 
-	numm = 0;
-	signal(SIGINT, sig_handler);
+	numm = 0, signal(SIGINT, sig_handler);
 	while (bytes != EOF)
 	{
 		numm++;
@@ -40,10 +39,11 @@ int main(int numm, char **argv)
 		parse_input(line, args, &num);
 		if (_strncmp(line, "exit", 4) == 0)
 			exitt(line, args, argv, numm);
-		execute_command(args, line, argv, numm);
-		free(args);
-		args = NULL;
-		num = 0;
+		else if (_strncmp(line, "cd", 3) == 0)
+			change_directory(args);
+		else
+			execute_command(line, args, argv, numm);
+		free(args), args = NULL, num = 0;
 	}
 	free(line);
 	return (0);
@@ -85,7 +85,6 @@ void parse_input(char *line, char **args, int *num)
 	args[*num] = NULL;
 	free(new_args);
 }
-
 /**
  * execute_command - fork and excute
  * @args: arrays of command
@@ -94,83 +93,69 @@ void parse_input(char *line, char **args, int *num)
  * @line: pointer
  * Return: none
  */
-int execute_command(char **args, char *line, char **argv, int numm)
+int execute_command(char *line, char **args, char **argv, int numm)
 {
 	int status;
 	pid_t pid;
-	char *cmd, *path;
+	char *path;
 	list_t list;
 
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("fork");
-		exit(1);
+		perror("fork"), exit(1);
 	}
 	else if (pid == 0)
 	{
-		cmd = args[0];
-	path = search_path(cmd);
+		line = args[0];
+		path = search_path(line, args, argv, numm);
 		if (path == NULL)
 		{
-			list.args = args;
-			list.number = numm++;
+			list.args = args, list.number = numm++;
 			_error(&list, ": not found\n", argv, numm++);
-			free(args);
-			free(line);
+			free(args), free(line);
 			exit(127);
 		}
 		args[0] = path;
-		if (_strncmp(line, "exit", 4) == 0 && args[1] != NULL && -atoi(args[1]) < 0)
+		if (execve(args[0], args, environ) == -1)
 		{
-			free(args);
-			free(line);
-			return (2);
-		}
-		else
-		{
-			if (execve(args[0], args, environ) == -1)
-			{
-				list.args = args;
-				list.number = numm++;
-				free(line);
-				free(args);
-				_error(&list, "\n", argv, numm++);
-				exit(127);
-			}
+			list.args = args, list.number = numm++;
+			free(line), free(args);
+			_error(&list, "\n", argv, numm++);
+			exit(127);
 		}
 	}
 	else
-	{
 		waitpid(pid, &status, 0);
-	}
 	return (WEXITSTATUS(status));
 }
-
 /**
  * search_path - search and find the path
- * @cmd: pointer to char
+ * @argv: name of program
+ * @line: input command
+ * @args: pointer to args
+ * @numm: integer
  * Return: pointer to path
  */
-char *search_path(char *cmd)
+char *search_path(char *line, char **args, char **argv, int numm)
 {
 	char *path, *path_copy = NULL, *dir, *saveptr, *full_path = NULL;
 
-	if (_strchr(cmd, '/') != NULL)
-		return (cmd);
+	if (_strchr(line, '/') != NULL)
+		return (line);
 	path = _getenv("PATH");
 	path_copy = _strdup(path);
 	if (path_copy == NULL)
 	{
 		perror("fatal error");
-		exit(127);
+		exitt(line, args, argv, numm);
 	}
 	dir = _strtok(path_copy, ":", &saveptr);
-	full_path = malloc(_strlen(dir) + _strlen(cmd) + 2);
+	full_path = malloc(_strlen(dir) + _strlen(line) + 2);
 	if  (full_path == NULL)
 	{
 		perror("fatal error");
-		exit(127);
+		exitt(line, args, argv, numm);
 	}
 	while (dir != NULL)
 	{
@@ -179,7 +164,7 @@ char *search_path(char *cmd)
 			full_path[0] = '\0';
 			_strcat(full_path, dir);
 			_strcat(full_path, "/");
-			_strcat(full_path, cmd);
+			_strcat(full_path, line);
 		}
 
 		if (access(full_path, X_OK) == 0)

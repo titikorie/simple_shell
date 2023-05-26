@@ -31,8 +31,7 @@ void exitt(char *line, char **args, char **argv, int numm)
 			list.args = args;
 			list.number = numm++;
 			_error(&list, ": Illegal number\n", argv, numm++);
-			status = 2;
-			exit(status);
+			exit(2);
 		}
 	}
 }
