@@ -48,15 +48,15 @@ void _error(list_t *list, char *string, char **argv, int numm)
 {
 	char *number;
 
-	_puts(argv[0]);
-	_puts(": ");
+	write(STDERR_FILENO, argv[0], _strlen(argv[0]));
+	write(STDERR_FILENO, ": ", 2);
 	number = _changer(list->number, numm);
-	_puts(number);
+	write(STDERR_FILENO, number, _strlen(number));
 	free(number);
-	_puts(": ");
-	_puts(list->args[0]);
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, list->args[0], _strlen(list->args[0]));
 	if (string != NULL)
 	{
-		_puts(string);
+		write(STDERR_FILENO, string, _strlen(string));
 	}
 }

@@ -8,7 +8,7 @@
 int main(int numm, char **argv)
 {
 	char **args = NULL, *line = NULL;
-	int num = 0, empty_line = 0, j, len;
+	int num = 0, empty_line = 0, j, exit_status = 0, len;
 	size_t i = 0;
 	ssize_t bytes = 0;
 
@@ -38,7 +38,7 @@ int main(int numm, char **argv)
 			exit(1);
 		parse_input(line, args, &num);
 		if (_strncmp(line, "exit", 4) == 0)
-			exitt(line, args, argv, numm);
+			exit_status = exitt(line, args, argv, numm);
 		else if (_strncmp(line, "cd", 3) == 0)
 			change_directory(args);
 		else
@@ -46,7 +46,7 @@ int main(int numm, char **argv)
 		free(args), args = NULL, num = 0;
 	}
 	free(line);
-	return (0);
+	return (exit_status);
 }
 /**
  * parse_input - to devide the input using delim by strtok
@@ -108,7 +108,7 @@ int execute_command(char *line, char **args, char **argv, int numm)
 	else if (pid == 0)
 	{
 		line = args[0];
-		path = search_path(line, args, argv, numm);
+		path = search_path(line);
 		if (path == NULL)
 		{
 			list.args = args, list.number = numm++;
@@ -122,7 +122,7 @@ int execute_command(char *line, char **args, char **argv, int numm)
 			list.args = args, list.number = numm++;
 			free(line), free(args);
 			_error(&list, "\n", argv, numm++);
-			exit(127);
+			exit(status);
 		}
 	}
 	else
@@ -131,13 +131,10 @@ int execute_command(char *line, char **args, char **argv, int numm)
 }
 /**
  * search_path - search and find the path
- * @argv: name of program
  * @line: input command
- * @args: pointer to args
- * @numm: integer
  * Return: pointer to path
  */
-char *search_path(char *line, char **args, char **argv, int numm)
+char *search_path(char *line)
 {
 	char *path, *path_copy = NULL, *dir, *saveptr, *full_path = NULL;
 
@@ -148,14 +145,14 @@ char *search_path(char *line, char **args, char **argv, int numm)
 	if (path_copy == NULL)
 	{
 		perror("fatal error");
-		exitt(line, args, argv, numm);
+		exit(127);
 	}
 	dir = _strtok(path_copy, ":", &saveptr);
 	full_path = malloc(_strlen(dir) + _strlen(line) + 2);
 	if  (full_path == NULL)
 	{
 		perror("fatal error");
-		exitt(line, args, argv, numm);
+		exit(127);
 	}
 	while (dir != NULL)
 	{

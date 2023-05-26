@@ -6,7 +6,7 @@
  * @numm: counter
  * @args: points the argumentss
  */
-void exitt(char *line, char **args, char **argv, int numm)
+int exitt(char *line, char **args, char **argv, int numm)
 {
 	int status = 0;
 	list_t list;
@@ -17,7 +17,7 @@ void exitt(char *line, char **args, char **argv, int numm)
 		{
 			free(line);
 			free(args);
-			exit(status);
+			exit(0);
 		}
 		status = _atoi(args[1]);
 		if (status >= 0)
@@ -34,4 +34,5 @@ void exitt(char *line, char **args, char **argv, int numm)
 			exit(2);
 		}
 	}
+	return (status);
 }
