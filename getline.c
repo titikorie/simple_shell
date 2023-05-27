@@ -37,85 +37,85 @@ void *_reallocd(void *ptr, unsigned int old_size, unsigned int new_size)
 }
 /**
  * _getline - to read inputs
- * @lineptr: points the line input
+ * @ptr: points the line input
  * @n: size of the read line
  * @stream: file
  * Return:size of the read line
  */
 
-ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
+ssize_t _getline(char **ptr, size_t *n, FILE *stream)
 {
 	int i;
-	static ssize_t input;
-	ssize_t retval;
-	char *buffer;
+	static ssize_t j;
+	ssize_t val;
+	char *buff;
 	char t = 'z';
 
-	if (input == 0)
+	if (j == 0)
 		fflush(stream);
 	else
 		return (-1);
-	input = 0;
+	j = 0;
 
-	buffer = malloc(sizeof(char) * BUFSIZE);
-	if (buffer == 0)
+	buff = malloc(sizeof(char) * BUFSIZE);
+	if (buff == 0)
 		return (-1);
 	while (t != '\n')
 	{
 		i = read(STDIN_FILENO, &t, 1);
-		if (i == -1 || (i == 0 && input == 0))
+		if (i == -1 || (i == 0 && j == 0))
 		{
-			free(buffer);
+			free(buff);
 			return (-1);
 		}
-		if (i == 0 && input != 0)
+		if (i == 0 && j != 0)
 		{
-			input++;
+			j++;
 			break;
 		}
-		if (input >= BUFSIZE)
-			buffer = _reallocd(buffer, input, input + 1);
-		buffer[input] = t;
-		input++;
+		if (j >= BUFSIZE)
+			buff = _reallocd(buff, j, j + 1);
+		buff[j] = t;
+		j++;
 	}
-	buffer[input] = '\0';
-	bring_line(lineptr, n, buffer, input);
-	retval = input;
+	buff[j] = '\0';
+	provide_input(ptr, n, buff, j);
+	val = j;
 	if (i != 0)
-		input = 0;
-	return (retval);
+		j = 0;
+	return (val);
 }
 
 /**
- * bring_line - assigns the line var for get_line
- * @lineptr: Buffer that store the input str
- * @buffer: str that is been called to line
+ * provide_input - assigns the line var for get_line
+ * @ptr: Buffer that store the input str
+ * @buff: str that is been called to line
  * @n: size of line
- * @j: size of buffer
+ * @i: size of buffer
  */
-void bring_line(char **lineptr, size_t *n, char *buffer, size_t j)
+void provide_input(char **ptr, size_t *n, char *buff, size_t i)
 {
 
-	if (*lineptr == NULL)
+	if (*ptr == NULL)
 	{
-		if  (j > BUFSIZE)
-			*n = j;
+		if  (i > BUFSIZE)
+			*n = i;
 
 		else
 			*n = BUFSIZE;
-		*lineptr = buffer;
+		*ptr = buff;
 	}
-	else if (*n < j)
+	else if (*n < i)
 	{
-		if (j > BUFSIZE)
-			*n = j;
+		if (i > BUFSIZE)
+			*n = i;
 		else
 			*n = BUFSIZE;
-		*lineptr = buffer;
+		*ptr = buff;
 	}
 	else
 	{
-		_strcpy(*lineptr, buffer);
-		free(buffer);
+		_strcpy(*ptr, buff);
+		free(buff);
 	}
 }

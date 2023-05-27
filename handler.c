@@ -18,7 +18,7 @@ void change_directory(char **args)
 		if (dir == NULL)
 			dir = ".";
 	}
-	if (_strcmp(dir, "-") == 0)
+	if (args[1] && _strcmp(args[1] + 1, "-") == 0)
 	{
 		dir = oldpwd;
 		if (dir == NULL)
@@ -44,5 +44,5 @@ void change_directory(char **args)
 			exit(127);
 		}
 	}
-	free(pwd), free(home), free(dir);
+	free(pwd), free(home), free(oldpwd);
 }

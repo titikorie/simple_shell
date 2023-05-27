@@ -64,9 +64,9 @@ void _error(list_t *list, char *string, char **argv, int numm);
 int exitt(char *line, char **args, char **argv, int numm);
 char *_strtok(char *str, const char *delim, char **saveptr);
 size_t _strcspn(const char *s, const char *reject);
-ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
+ssize_t _getline(char **ptr, size_t *n, FILE *stream);
 void *_reallocd(void *ptr, unsigned int old_size, unsigned int new_size);
-void bring_line(char **lineptr, size_t *n, char *buffer, size_t j);
+void provide_input(char **ptr, size_t *n, char *buff, size_t i);
 void change_directory(char **args);
 
 #endif

@@ -4,7 +4,8 @@
  * @line: read input command
  * @argv: name of program
  * @numm: counter
- * @args: points the argumentss
+ * @args: points the arguments
+ * Return: status
  */
 int exitt(char *line, char **args, char **argv, int numm)
 {
