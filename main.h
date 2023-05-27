@@ -68,5 +68,6 @@ ssize_t _getline(char **ptr, size_t *n, FILE *stream);
 void *_reallocd(void *ptr, unsigned int old_size, unsigned int new_size);
 void provide_input(char **ptr, size_t *n, char *buff, size_t i);
 void change_directory(char **args);
+void execute_semicolon(char *line, char **argv, int numm);
 
 #endif

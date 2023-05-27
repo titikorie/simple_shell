@@ -7,8 +7,8 @@
  */
 int main(int numm, char **argv)
 {
-	char **args = NULL, *line = NULL;
-	int num = 0, empty_line = 0, j, exit_status = 0, len;
+	char *line = NULL;
+	int empty_line = 0, j, exit_status = 0, len;
 	size_t i = 0;
 	ssize_t bytes = 0;
 
@@ -33,17 +33,7 @@ int main(int numm, char **argv)
 		len = _strlen(line);
 		if (len > 0 && line[len - 1] == '\n')
 			line[len - 1] = '\0';
-		args = malloc(sizeof(char *) * (len + 1));
-		if (args == NULL)
-			exit(1);
-		parse_input(line, args, &num);
-		if (_strncmp(line, "exit", 4) == 0)
-			exit_status = exitt(line, args, argv, numm);
-		else if (_strncmp(line, "cd", 3) == 0)
-			change_directory(args);
-		else
-			execute_command(line, args, argv, numm);
-		free(args), args = NULL, num = 0;
+		execute_semicolon(line, argv, numm);
 	}
 	free(line);
 	return (exit_status);
