@@ -23,7 +23,6 @@ void change_directory(char **args)
 		dir = oldpwd;
 		if (dir == NULL)
 			dir = ".";
-		_puts(dir), _puts("\n");
 	}
 	if (chdir(dir) == -1)
 		perror("cd");
